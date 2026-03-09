@@ -13,11 +13,12 @@ let musicas = [
     { id: 4, nome: 'Buryinf Secrets', autor: 'Yellowstone (Original Television Series Soundtrack)', link: 'https://www.youtube.com/watch?v=CaSXKX9GiPc&list=PLRW80bBvVD3U1tL2L7LiXPabRcZCYkzxM&index=16' }
 ];
 
-
+//GET 1
 app.get('/musicas', (req, res) => {
 res.status(200).json(musicas);
 });
 
+//GET 2
 app.get('/musicas/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const musica = musicas.find(p => p.id === id);
@@ -29,6 +30,7 @@ app.get('/musicas/:id', (req, res) => {
     }
 });
 
+//GET 3
 app.get('/musicas/nome/:nomeid', (req, res) => {
     const nomeid = req.params.nomeid
     const musica = musicas.find(p => p.nome === nomeid)
@@ -43,7 +45,7 @@ app.get('/musicas/nome/:nomeid', (req, res) => {
 //POST
 let proximoId = 5;
 
-app.post("/produtos", (req, res) => {
+app.post("/musicas", (req, res) => {
   const { id, nome, autor,link } = req.body;
 
   //validação do post
@@ -60,6 +62,51 @@ app.post("/produtos", (req, res) => {
 
   musicas.push(novo);
   res.status(201).json(novo); 
+});
+
+//PUT
+app.put('/musicas/:id', (req, res)=> {
+    const id = parseInt(req.params.id);
+    const {nome, autor, link} = req.body;
+if (!nome || !autor || !link) {
+    return res.status(400).json({msg: "Dados incompletos"})
+}
+
+const index = musicas.findIndex(m => m.id === id);
+if(index !== -1){
+
+    musicas[index] ={
+        id,
+        nome,
+        autor,
+        link
+
+    }
+res.status(200).json(musicas[index]);
+}
+else{
+   res.status(404).json({
+    mensagem: `Produto ${id} não encontrado`
+   }); 
+}
+});
+
+//DELETE
+
+app.delete('/musicas/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = musicas.findIndex (p=> p.id === id);
+
+    if (index !== -1){
+        musicas.splice(index, 1);
+        res.status(200).json({
+            mensagem: `Produto ${id} removido com sucesso`
+        });
+    }else{
+        res.status(404).json ({
+            mensagem: `Produto ${id} não encontrado`
+        });
+    };
 });
 
 app.listen(3000, () => {
