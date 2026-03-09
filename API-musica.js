@@ -29,6 +29,16 @@ app.get('/musicas/:id', (req, res) => {
     }
 });
 
+app.get('/musicas/nome/:nomeid', (req, res) => {
+    const nomeid = req.params.nomeid
+    const musica = musicas.find(p => p.nome === nomeid)
+
+    if (musica) {
+        res.status(200).json(musica)
+    } else {
+        res.status(404).json({ mensagem: "Música não encontrada"})
+    }
+})
 
 app.listen(3000, () => {
     console.log(`🚀 Servidor rodando em http://localhost:3000`);
