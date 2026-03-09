@@ -49,7 +49,7 @@ app.post("/musicas", (req, res) => {
   const { id, nome, autor,link } = req.body;
 
   //validação do post
-  if (!id || !nome || !autor|| !link ) {
+  if ( !nome || !autor|| !link ) {
     return res.status(400).json({ msg: "Dados incompletos" });
   }
 
