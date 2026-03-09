@@ -40,7 +40,30 @@ app.get('/musicas/nome/:nomeid', (req, res) => {
     }
 })
 
+//POST
+let proximoId = 5;
+
+app.post("/produtos", (req, res) => {
+  const { id, nome, autor,link } = req.body;
+
+  //validação do post
+  if (!id || !nome || !autor|| !link ) {
+    return res.status(400).json({ msg: "Dados incompletos" });
+  }
+
+  const novo = {
+    id: proximoId++,
+    nome,
+    autor,
+    link
+  };
+
+  musicas.push(novo);
+  res.status(201).json(novo); //201= created
+});
+
 app.listen(3000, () => {
     console.log(`🚀 Servidor rodando em http://localhost:3000`);
     console.log(`📋 Acesse http://localhost:3000/musicas`);
 });
+
