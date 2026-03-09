@@ -59,7 +59,7 @@ app.post("/produtos", (req, res) => {
   };
 
   musicas.push(novo);
-  res.status(201).json(novo); //201= created
+  res.status(201).json(novo); 
 });
 
 app.listen(3000, () => {
